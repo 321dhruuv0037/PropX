@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# 🏠 PropX Property Exchange Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📘 Description
 
-## Available Scripts
+The **PropX Property Exchange Portal** is a decentralized application (DApp) that brings transparency, authenticity, and ease of use to the real estate ecosystem. Built on blockchain technology, it allows users to register, buy, and resell properties in a secure and tamper-proof environment. This project ensures that ownership records remain immutable and that transactions are trustless and verifiable.
 
-In the project directory, you can run:
+### 🔑 Why this is needed?
 
-### `npm start`
+- ❌ Traditional real estate transactions often involve fraud, forged documents, and disputes.
+- ✅ Blockchain ensures secure, traceable, and transparent property management.
+- ✅ Buyers can verify ownership history, view legal documents, and perform transactions seamlessly.
+- ✅ Property resale and availability can be toggled easily by the owner, bringing control back to the users.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📸 Screenshots / Demo
 
-### `npm test`
+### 🔷 Home Page  
+![Home Page](./public/images/homepage.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🔷 Add Property  
+![Add Property](./public/images/addProperty.png)
 
-### `npm run build`
+### 🔷 Buy Property  
+![Buy Properties](./public/images/buyProperty.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🚀 How to Run
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/321dhruuv0037/PropX.git
+   cd PropX
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Install dependencies**  
+   ```bash
+   npm install
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **Start Ganache** and deploy the smart contract using Remix or Truffle.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. **Start the React frontend**  
+   ```bash
+   npm start
+   ```
 
-## Learn More
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 👨‍💻 Developers
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+| GitHub Profile | Name |
+|----------------|------|
+| ![Dhruuv Naik](https://github.com/321dhruuv0037.png?size=40) | [Dhruuv Naik](https://github.com/321dhruuv0037) |
+| ![Srujana Makarande](https://github.com/srujana2310.png?size=40) | [Srujana Makarande](https://github.com/srujana2310) |
+| ![Advay Gujar](https://github.com/advayGujar.png?size=40) | [Advay Gujar](https://github.com/advayGujar) |
+| ![Aditya Kareer](https://github.com/adityaKareer.png?size=40) | [Aditya Kareer](https://github.com/adityaKareer) |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
