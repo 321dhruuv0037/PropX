@@ -1,0 +1,163 @@
+:root {
+  --background-color: #f5f5f5;
+  --card-background: #ffffff;
+  --card-border: #dcdcdc;
+  --text-color: #333333;
+  --heading-color: #2a2a2a;
+  --primary-teal: #1c7e74;
+  --hover-teal: #17a085;
+  --success-color: #4caf50;
+  --error-color: #f44336;
+}
+
+
+.verify-properties-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary-teal);
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background: var(--cool-white); /* Light base color */
+  color: var(--dark-teal-text); /* Dark teal text color */
+  margin: 0;
+}
+
+/* Container for page content */
+.verify-properties-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* Property section styling */
+.property-section {
+  margin-top: 2rem;
+}
+
+/* Property listing layout */
+.property-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+/* Link styling */
+a {
+  text-decoration: none;
+  color: var(--teal); /* Teal links */
+}
+
+.property-card {
+  width: 300px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--card-border); /* Card border */
+  padding: 1.2rem;
+  border-radius: 12px;
+  background-color: var(--card-background); /* White background for cards */
+  box-shadow: var(--card-shadow); /* Soft shadow */
+  transition: transform 0.2s ease-in-out;
+}
+
+.property-card:hover {
+  transform: translateY(-5px); /* Hover effect for card */
+}
+
+.property-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--dark-teal-text); /* Dark teal text */
+  margin-bottom: 0.8rem;
+}
+
+.property-card p {
+  margin: 0.4rem 0;
+  color: #555;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.property-card button {
+  margin-top: 0.8rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--teal); /* Teal button */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.property-card button:disabled {
+  background-color: var(--disabled-button); /* Disabled button color */
+  cursor: not-allowed;
+}
+
+.property-card button:hover:not(:disabled) {
+  background-color: var(--hover-teal); /* Darker teal on hover */
+}
+
+/* Resale section styling */
+.resale-section {
+  margin-top: 1rem;
+}
+
+.resale-section input {
+  width: 100%;
+  padding: 0.4rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--cool-white);
+}
+
+/* Modal styling */
+.modal {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  padding: 1.5rem 2rem;
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-content {
+  background-color: var(--modal-background); /* White modal background */
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 0px 10px #00000044;
+  border-left: var(--modal-border); /* Teal left border */
+}
+
+.modal-content p {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.modal-content button {
+  background-color: var(--button-background);
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal-content button:hover {
+  background-color: var(--hover-teal); /* Hover effect on button */
+}

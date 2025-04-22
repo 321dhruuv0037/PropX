@@ -13,9 +13,9 @@ const AllProperties = ({ account, contract, web3 }) => {
   const [editLocation, setEditLocation] = useState("");
   const [editSize, setEditSize] = useState("");
   const [editPropertyPaper, setEditPropertyPaper] = useState("");
-  const [editPriceINR, setEditPriceINR] = useState(""); 
-  // const [ethRate, setethRate] = useState(0); 
-  const [isLoading, setIsLoading] = useState(true); 
+  const [editPriceINR, setEditPriceINR] = useState("");
+  // const [ethRate, setethRate] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleEditClick = (property) => {
     if (!ethRate || ethRate === 0) {
@@ -52,7 +52,10 @@ const AllProperties = ({ account, contract, web3 }) => {
       });
       return;
     }
-    const priceInETH = Web3.utils.toWei((editPriceINR / ethRate).toString(), "ether");
+    const priceInETH = Web3.utils.toWei(
+      (editPriceINR / ethRate).toString(),
+      "ether"
+    );
     try {
       // Call the smart contract edit function
       await contract.methods
@@ -65,7 +68,7 @@ const AllProperties = ({ account, contract, web3 }) => {
           priceInETH
         )
         .send({ from: account });
-  
+
       setIsEditing(false); // Close window
       setModal({
         show: true,
@@ -81,7 +84,6 @@ const AllProperties = ({ account, contract, web3 }) => {
       });
     }
   };
-  
 
   const [modal, setModal] = useState({
     show: false,
@@ -115,11 +117,11 @@ const AllProperties = ({ account, contract, web3 }) => {
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setEthRate(data?.ethereum?.inr || null);
-      setIsLoading(false);  
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching ETH-INR rate:", error.message);
       setEthRate(null);
-      setIsLoading(false);  
+      setIsLoading(false);
     }
   };
 
@@ -163,7 +165,10 @@ const AllProperties = ({ account, contract, web3 }) => {
   );
 
   const availableProperties = properties.filter(
-    (p) => p.isForSale && p.isVerified && p.owner.toLowerCase() !== account.toLowerCase()
+    (p) =>
+      p.isForSale &&
+      p.isVerified &&
+      p.owner.toLowerCase() !== account.toLowerCase()
   );
 
   const filteredAvailableProperties = availableProperties.filter(
@@ -286,8 +291,12 @@ const AllProperties = ({ account, contract, web3 }) => {
                 />
               </label>
               <div className="form-actions">
-                <button type="submit" disabled={isLoading}>Save Changes</button>
-                <button type="button" onClick={handleCloseWindow}>Cancel</button>
+                <button type="submit" disabled={isLoading}>
+                  Save Changes
+                </button>
+                <button type="button" onClick={handleCloseWindow}>
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -331,7 +340,11 @@ const AllProperties = ({ account, contract, web3 }) => {
 
             <p>
               <strong>Status:</strong>{" "}
-              {property.isForSale ? "For Sale" : "Not for Sale"}
+              {property.isForSale && property.isVerified
+                ? "Available for Purchase"
+                : property.isForSale && !property.isVerified
+                ? "Pending Verification"
+                : "Not for Sale"}
             </p>
 
             {property.propertyPaper && (
@@ -387,8 +400,8 @@ const AllProperties = ({ account, contract, web3 }) => {
               </button>
             </div>
             {!property.isForSale && (
-      <button onClick={() => handleEditClick(property)}>Edit</button>
-    )}
+              <button onClick={() => handleEditClick(property)}>Edit</button>
+            )}
           </div>
         ))}
       </div>
