@@ -7,6 +7,82 @@ const AllProperties = ({ account, contract, web3 }) => {
   const [ethRate, setEthRate] = useState(null);
   const [search, setSearch] = useState("");
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editPropertyId, setEditPropertyId] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editLocation, setEditLocation] = useState("");
+  const [editSize, setEditSize] = useState("");
+  const [editPropertyPaper, setEditPropertyPaper] = useState("");
+  const [editPriceINR, setEditPriceINR] = useState(""); 
+  // const [ethRate, setethRate] = useState(0); 
+  const [isLoading, setIsLoading] = useState(true); 
+
+  const handleEditClick = (property) => {
+    if (!ethRate || ethRate === 0) {
+      setModal({
+        show: true,
+        message: "Unable to fetch ETH conversion rate. Please try again later!",
+        success: false,
+      });
+      return;
+    }
+    if (!property.isForSale) {
+      setEditPropertyId(property.id);
+      setEditName(property.name);
+      setEditLocation(property.location);
+      setEditSize(property.size);
+      setEditPropertyPaper(property.propertyPaper);
+      const priceInINR = Web3.utils.fromWei(property.price, "ether") * ethRate;
+      setEditPriceINR(priceInINR.toFixed(2)); // Format to 2 decimal places
+      setIsEditing(true);
+    }
+  };
+
+  const handleCloseWindow = () => {
+    setIsEditing(false);
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    if (!ethRate || ethRate === 0) {
+      setModal({
+        show: true,
+        message: "Unable to fetch ETH conversion rate. Please try again later!",
+        success: false,
+      });
+      return;
+    }
+    const priceInETH = Web3.utils.toWei((editPriceINR / ethRate).toString(), "ether");
+    try {
+      // Call the smart contract edit function
+      await contract.methods
+        .editProperty(
+          editPropertyId,
+          editName,
+          editLocation,
+          editSize,
+          editPropertyPaper,
+          priceInETH
+        )
+        .send({ from: account });
+  
+      setIsEditing(false); // Close window
+      setModal({
+        show: true,
+        message: "Property edited successfully!",
+        success: true,
+      });
+      window.location.reload();
+    } catch (error) {
+      setModal({
+        show: true,
+        message: "Error editing property!",
+        success: false,
+      });
+    }
+  };
+  
+
   const [modal, setModal] = useState({
     show: false,
     message: "",
@@ -39,9 +115,11 @@ const AllProperties = ({ account, contract, web3 }) => {
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setEthRate(data?.ethereum?.inr || null);
+      setIsLoading(false);  
     } catch (error) {
       console.error("Error fetching ETH-INR rate:", error.message);
       setEthRate(null);
+      setIsLoading(false);  
     }
   };
 
@@ -85,7 +163,7 @@ const AllProperties = ({ account, contract, web3 }) => {
   );
 
   const availableProperties = properties.filter(
-    (p) => p.isForSale && p.owner.toLowerCase() !== account.toLowerCase()
+    (p) => p.isForSale && p.isVerified && p.owner.toLowerCase() !== account.toLowerCase()
   );
 
   const filteredAvailableProperties = availableProperties.filter(
@@ -161,6 +239,61 @@ const AllProperties = ({ account, contract, web3 }) => {
   return (
     <div className="container">
       <h2>Your Properties</h2>
+      {isEditing && (
+        <div className="overlay">
+          <div className="edit-window">
+            <h3>Edit Property</h3>
+            <form onSubmit={handleEditSubmit}>
+              <label>
+                Name:
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                />
+              </label>
+              <label>
+                Location:
+                <input
+                  type="text"
+                  value={editLocation}
+                  onChange={(e) => setEditLocation(e.target.value)}
+                />
+              </label>
+              <label>
+                Size:
+                <input
+                  type="text"
+                  value={editSize}
+                  onChange={(e) => setEditSize(e.target.value)}
+                />
+              </label>
+              <label>
+                Price (INR):
+                <input
+                  type="number"
+                  value={editPriceINR}
+                  onChange={(e) => setEditPriceINR(e.target.value)}
+                  min="0"
+                />
+              </label>
+              <label>
+                Property Paper (URL):
+                <input
+                  type="text"
+                  value={editPropertyPaper}
+                  onChange={(e) => setEditPropertyPaper(e.target.value)}
+                />
+              </label>
+              <div className="form-actions">
+                <button type="submit" disabled={isLoading}>Save Changes</button>
+                <button type="button" onClick={handleCloseWindow}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       <div className="property-list">
         {yourProperties.length === 0 && <p>No properties owned yet.</p>}
         {yourProperties.map((property) => (
@@ -253,6 +386,9 @@ const AllProperties = ({ account, contract, web3 }) => {
                 {property.isForSale ? "Remove from Sale" : "Put Up for Sale"}
               </button>
             </div>
+            {!property.isForSale && (
+      <button onClick={() => handleEditClick(property)}>Edit</button>
+    )}
           </div>
         ))}
       </div>
