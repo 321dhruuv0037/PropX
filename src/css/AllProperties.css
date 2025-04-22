@@ -1,20 +1,51 @@
+:root {
+  --cool-white: #f2fff9; /* Base background */
+  --teal: #008080; /* Teal accents */
+  --mint-background: #cce9e1; /* Light mint */
+  --dark-teal-text: #006666; /* Dark teal text color */
+  --charcoal-text: #333; /* Default text color */
+  --hover-teal: #006666; /* Hover effect */
+  --card-background: #ffffff; /* Property card background */
+  --card-border: #e0e0e0; /* Border for cards */
+  --card-shadow: rgba(0, 0, 0, 0.1); /* Soft shadow */
+  --input-border: #ccc; /* Input field border */
+  --button-background: #0077cc; /* Button background */
+  --disabled-button: #ccc; /* Disabled button color */
+  --modal-background: #fff; /* Modal background */
+  --modal-border: 6px solid var(--teal); /* Modal border */
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background: var(--cool-white); /* Light base color */
+  color: var(--dark-teal-text); /* Dark teal text color */
+  margin: 0;
+}
+
+/* Container for page content */
 .container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* Search bar styling */
 .search-bar {
   padding: 0.5rem;
   width: 100%;
   margin-bottom: 1rem;
   font-size: 1rem;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--cool-white);
 }
 
+/* Property section styling */
 .property-section {
   margin-top: 2rem;
 }
 
+/* Property listing layout */
 .property-list {
   display: flex;
   flex-wrap: wrap;
@@ -22,9 +53,10 @@
   justify-content: center;
 }
 
+/* Link styling */
 a {
   text-decoration: none;
-  color: #0077cc;
+  color: var(--teal); /* Teal links */
 }
 
 .property-card {
@@ -33,17 +65,22 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #ccc;
+  border: 1px solid var(--card-border); /* Card border */
   padding: 1.2rem;
   border-radius: 12px;
-  background-color: #f8f8f8;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  background-color: var(--card-background); /* White background for cards */
+  box-shadow: var(--card-shadow); /* Soft shadow */
+  transition: transform 0.2s ease-in-out;
+}
+
+.property-card:hover {
+  transform: translateY(-5px); /* Hover effect for card */
 }
 
 .property-card h3 {
   margin-top: 0;
   font-size: 1.2rem;
-  color: #333;
+  color: var(--dark-teal-text); /* Dark teal text */
   margin-bottom: 0.8rem;
 }
 
@@ -60,21 +97,22 @@ a {
   font-size: 0.95rem;
   border: none;
   border-radius: 8px;
-  background-color: #0077cc;
+  background-color: var(--teal); /* Teal button */
   color: white;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
 .property-card button:disabled {
-  background-color: #ccc;
+  background-color: var(--disabled-button); /* Disabled button color */
   cursor: not-allowed;
 }
 
 .property-card button:hover:not(:disabled) {
-  background-color: #005fa3;
+  background-color: var(--hover-teal); /* Darker teal on hover */
 }
 
+/* Resale section styling */
 .resale-section {
   margin-top: 1rem;
 }
@@ -84,10 +122,12 @@ a {
   padding: 0.4rem;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);
   border-radius: 6px;
+  background-color: var(--cool-white);
 }
 
+/* Modal styling */
 .modal {
   position: fixed;
   top: 20%;
@@ -99,16 +139,54 @@ a {
   max-width: 400px;
 }
 
+.modal-content {
+  background-color: var(--modal-background); /* White modal background */
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 0px 10px #00000044;
+  border-left: var(--modal-border); /* Teal left border */
+}
+
 .modal-content p {
   margin: 0 0 1rem;
   font-size: 1rem;
 }
 
 .modal-content button {
-  background-color: #0077cc;
+  background-color: var(--button-background);
   color: white;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal-content button:hover {
+  background-color: var(--hover-teal); /* Hover effect on button */
+}
+
+.search-bar {
+  padding: 0.5rem;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 50%;
+  font-size: 1rem;
+  border: 1px solid var(--card-border);
+  background-color: var(--cool-white);
+  color: var(--charcoal-text);
+  transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(0, 128, 128, 0.2);
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    max-width: 100%;
+  }
 }

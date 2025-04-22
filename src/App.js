@@ -14,34 +14,17 @@ function App() {
 
   useEffect(() => {
     const loadWeb3 = async () => {
-      try {
-        if (window.ethereum) {
-          const web3Instance = new Web3(window.ethereum);
-          setWeb3(web3Instance);
-  
-          await window.ethereum.request({
-            method: "eth_requestAccounts",
-          });
-  
+      try { 
+        if (window.ethereum) { 
+          const web3Instance = new Web3(window.ethereum); setWeb3(web3Instance);
+          await window.ethereum.request({ method: "eth_requestAccounts",});
           const accounts = await web3Instance.eth.getAccounts();
           setAccount(accounts[0]);
-  
-          const contractInstance = new web3Instance.eth.Contract(
-            contractABI,
-            contractAddress
-          );
-          setContract(contractInstance);
-  
-          window.ethereum.on("accountsChanged", (accounts) => {
-            setAccount(accounts[0]);
-          });
-  
-          window.ethereum.on("chainChanged", () => {
-            window.location.reload();
-          });
-        } else {
-          alert("Please install MetaMask!");
-        }
+          const contractInstance = new web3Instance.eth.Contract(contractABI,contractAddress);
+          setContract(contractInstance);  
+          window.ethereum.on("accountsChanged", (accounts) => {setAccount(accounts[0]);});
+          window.ethereum.on("chainChanged", () => {window.location.reload();});
+        } else {alert("Please install MetaMask!");}
       } catch (error) {
         console.error("MetaMask Connection Error:", error);
         alert("Failed to connect MetaMask. Check console for details.");
@@ -60,7 +43,8 @@ function App() {
     <Router>
       <div className="app-container">
         <nav className="navbar">
-          <Link to="/" className="nav-link">
+          <div className="navbar-left">
+            <Link to="/" className="nav-link">
             Home
           </Link>
           <Link to="/add-property" className="nav-link">
@@ -69,7 +53,9 @@ function App() {
           <Link to="/all-properties" className="nav-link">
             Buy Property
           </Link>
-          <p style={{ marginLeft: "auto", marginRight: "10px", color: "#fff" }}>
+          </div>
+          
+          <p className="nav-account">
             Connected: {account?.slice(0, 6)}...{account?.slice(-4)}
           </p>
         </nav>

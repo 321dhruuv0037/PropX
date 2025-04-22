@@ -1,7 +1,20 @@
+:root {
+  --cool-white: #f2fff9; /* Background base */
+  --teal: #008080; /* Teal for highlights */
+  --mint-background: #cce9e1; /* Light mint background */
+  --charcoal-text: #333; /* Charcoal text for readability */
+  --font-family: "Nunito Sans", sans-serif; /* Clean, modern font */
+  --hover-teal: #006666; /* Darker teal for hover effect */
+  --card-background: #ffffff; /* White card background */
+  --card-border: #e0e0e0; /* Subtle borders */
+  --card-shadow: rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: "Nunito Sans", sans-serif;
+  background: var(--cool-white); 
+  color: var(--charcoal-text);
 }
 
 .app-container {
@@ -11,8 +24,16 @@ body {
 }
 
 .navbar {
-  background: #24292e;
+  background: linear-gradient(45deg, #cce9e1,#cce9e1, #f2fff9,#cce9e1);
   padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.navbar-left {
   display: flex;
   justify-content: start;
   align-items: center;
@@ -20,13 +41,21 @@ body {
 }
 
 .nav-link {
-  color: #ffffff;
+  color: var(--charcoal-text); 
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #61dafb;
+  color: var(--hover-teal);
+  text-shadow: 0 0 2px var(--teal), 0 0 10px var(--teal); 
+}
+
+.nav-account {
+  margin-left: auto;
+  margin-right: 10px;
 }
 
 .page-container {
@@ -38,53 +67,104 @@ body {
 }
 
 .page-title {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--charcoal-text);
 }
 
 .page-text {
   font-size: 1.2rem;
   color: #444;
+  text-align: center;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  width: 300px;
+  gap: 1.5rem;
+  width: 350px;
 }
 
 .input-field {
-  padding: 0.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .submit-button {
-  padding: 0.5rem;
-  background: #61dafb;
+  padding: 0.75rem;
+  background: var(--teal);
   border: none;
   font-weight: bold;
   cursor: pointer;
+  border-radius: 5px;
+  color: white;
+  transition: background 0.3s ease;
 }
 
 .submit-button:hover {
-  background: #21a1f1;
+  background: var(--hover-teal); /* Darker teal on hover */
 }
 
 .properties-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 2rem;
+  margin-top: 3rem;
   width: 100%;
 }
 
 .property-card {
-  background: #fff;
-  padding: 1rem;
-  border: 1px solid #ddd;
+  background: var(--card-background);
+  padding: 1.5rem;
+  border: 1px solid var(--card-border);
   border-radius: 10px;
-  width: 250px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 280px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease-in-out;
+}
+
+.property-card:hover {
+  transform: translateY(-5px); /* Slight elevation effect for interaction */
+}
+
+.property-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.property-card .property-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--charcoal-text);
+  margin-top: 1rem;
+}
+
+.property-card .property-details {
+  font-size: 1rem;
+  color: #777;
+}
+
+.footer {
+  text-align: center;
+  background-color: var(--charcoal-text);
+  color: white;
+  padding: 1rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer a {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: white;
 }

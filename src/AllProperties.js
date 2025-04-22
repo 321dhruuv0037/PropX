@@ -5,7 +5,8 @@ import "./css/AllProperties.css";
 const AllProperties = ({ account, contract, web3 }) => {
   const [properties, setProperties] = useState([]);
   const [ethRate, setEthRate] = useState(null);
-  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [search, setSearch] = useState("");
+
   const [modal, setModal] = useState({
     show: false,
     message: "",
@@ -22,12 +23,26 @@ const AllProperties = ({ account, contract, web3 }) => {
     setProperties(items);
   };
 
+  // const fetchEthInrRate = async () => {
+  //   const res = await fetch(
+  //     "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr"
+  //   );
+  //   const data = await res.json();
+  //   setEthRate(data.ethereum.inr);
+  // };
+
   const fetchEthInrRate = async () => {
-    const res = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr"
-    );
-    const data = await res.json();
-    setEthRate(data.ethereum.inr);
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr"
+      );
+      if (!response.ok) throw new Error("Failed to fetch");
+      const data = await response.json();
+      setEthRate(data?.ethereum?.inr || null);
+    } catch (error) {
+      console.error("Error fetching ETH-INR rate:", error.message);
+      setEthRate(null);
+    }
   };
 
   useEffect(() => {
@@ -73,6 +88,12 @@ const AllProperties = ({ account, contract, web3 }) => {
     (p) => p.isForSale && p.owner.toLowerCase() !== account.toLowerCase()
   );
 
+  const filteredAvailableProperties = availableProperties.filter(
+    (p) =>
+      p.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.location.toLowerCase().includes(search.toLowerCase())
+  );
+
   const resaleProperty = async (propertyId, newPriceInInr) => {
     if (!ethRate || !newPriceInInr || isNaN(newPriceInInr)) {
       setModal({
@@ -86,7 +107,6 @@ const AllProperties = ({ account, contract, web3 }) => {
     try {
       const eth = newPriceInInr / ethRate;
       const priceInWei = web3.utils.toWei(eth.toString(), "ether");
-
       await contract.methods
         .listPropertyForResale(propertyId, priceInWei)
         .send({ from: account });
@@ -152,10 +172,30 @@ const AllProperties = ({ account, contract, web3 }) => {
             <p>
               <strong>Size:</strong> {property.size}
             </p>
-            <p>
+            {/* <p>
               <strong>Price:</strong>{" "}
               {Web3.utils.fromWei(property.price.toString(), "ether")} ETH
+            </p> */}
+            <p>
+              <strong>Price:</strong>{" "}
+              {Web3.utils.fromWei(property.price.toString(), "ether")} ETH{" "}
+              {ethRate === null ? (
+                <span className="text-sm text-gray-400">
+                  {" "}
+                  (INR not available)
+                </span>
+              ) : (
+                <span className="text-sm text-gray-500">
+                  (₹
+                  {(
+                    Web3.utils.fromWei(property.price.toString(), "ether") *
+                    ethRate
+                  ).toFixed(2)}
+                  )
+                </span>
+              )}
             </p>
+
             <p>
               <strong>Status:</strong>{" "}
               {property.isForSale ? "For Sale" : "Not for Sale"}
@@ -218,11 +258,20 @@ const AllProperties = ({ account, contract, web3 }) => {
       </div>
 
       <h2>Available to Buy</h2>
+      <input
+        type="text"
+        // className="search-bar border p-2 rounded mb-4 w-full md:w-1/2"
+        className="search-bar"
+        placeholder="Search by name or location"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
       <div className="property-list">
         {availableProperties.length === 0 && (
           <p>No properties available for purchase.</p>
         )}
-        {availableProperties.map((property) => (
+        {filteredAvailableProperties.map((property) => (
           <div className="property-card" key={property.id}>
             <h3>{property.name}</h3>
             <p>
@@ -233,8 +282,24 @@ const AllProperties = ({ account, contract, web3 }) => {
             </p>
             <p>
               <strong>Price:</strong>{" "}
-              {Web3.utils.fromWei(property.price.toString(), "ether")} ETH
+              {Web3.utils.fromWei(property.price.toString(), "ether")} ETH{" "}
+              {ethRate === null ? (
+                <span className="text-sm text-gray-400">
+                  {" "}
+                  (INR not available)
+                </span>
+              ) : (
+                <span className="text-sm text-gray-500">
+                  (₹
+                  {(
+                    Web3.utils.fromWei(property.price.toString(), "ether") *
+                    ethRate
+                  ).toFixed(2)}
+                  )
+                </span>
+              )}
             </p>
+
             <p title={property.owner}>
               <strong>Owner:</strong>{" "}
               {`${property.owner.slice(0, 6)}...${property.owner.slice(-4)}`}

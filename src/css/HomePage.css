@@ -1,3 +1,4 @@
+/* HomePage Section */
 .homepage-container {
   padding: 2rem;
   max-width: 1000px;
@@ -8,11 +9,13 @@
 .intro-section h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
+  color: #006666; /* Dark teal text */
 }
 
 .intro-section p {
   font-size: 1.1rem;
   line-height: 1.6;
+  color: #555; /* Light greyish text */
 }
 
 .developers-section {
@@ -21,6 +24,7 @@
 
 .developers-section h2 {
   margin-bottom: 1.5rem;
+  color: #006666; /* Dark teal text */
 }
 
 .developer-cards {
@@ -31,11 +35,16 @@
 }
 
 .developer-card {
-  background-color: #f8f9fa;
+  background-color: #ffffff; /* White background */
   border-radius: 12px;
   padding: 1rem;
   width: 180px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: transform 0.3s ease-in-out;
+}
+
+.developer-card:hover {
+  transform: translateY(-5px);
 }
 
 .developer-card img {
@@ -48,4 +57,5 @@
 .developer-card h3 {
   margin-top: 0.8rem;
   font-size: 1.1rem;
+  color: #006666; /* Dark teal text */
 }

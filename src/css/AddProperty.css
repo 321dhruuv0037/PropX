@@ -1,42 +1,68 @@
-.container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
+:root {
+  --cool-white: #f2fff9; /* Background base */
+  --teal: #008080; /* Teal for highlights */
+  --mint-background: #cce9e1; /* Light mint background */
+  --charcoal-text: #333; /* Charcoal text for readability */
+  --font-family: "Nunito Sans", sans-serif; /* Clean, modern font */
+  --hover-teal: #006666; /* Darker teal for hover effect */
+  --card-background: #ffffff; /* White card background */
+  --card-border: #e0e0e0; /* Subtle borders */
+  --card-shadow: rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
 
-  .form {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-  
+body {
+  font-family: "Nunito Sans", sans-serif;
+  color: var(--charcoal-text); /* Default text color */
+  margin: 0;
+}
+
+/* Container for page content */
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Form styling */
+.form {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  color: #006666;
+}
+
+.form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid var(--card-border);
+  box-sizing: border-box;
+  background-color: var(--cool-white);
+}
 
 button {
   padding: 0.8rem;
-  background-color: #007bff;
+  background-color: var(--teal); /* Teal background */
   color: white;
   border: none;
   font-size: 1rem;
   cursor: pointer;
   border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--hover-teal); /* Darker teal on hover */
 }
 
 .success {
@@ -44,6 +70,7 @@ button:hover {
   margin-bottom: 1rem;
 }
 
+/* Property listing */
 .property-list {
   display: flex;
   flex-wrap: wrap;
@@ -52,17 +79,26 @@ button:hover {
 }
 
 .property-card {
-  border: 1px solid #ccc;
+  background: var(--card-background); /* Card background */
+  border: 1px solid var(--card-border); /* Subtle border */
   padding: 1rem;
   width: 280px;
   border-radius: 8px;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow); /* Light shadow for depth */
+  transition: transform 0.3s ease-in-out;
 }
+
+.property-card:hover {
+  transform: translateY(-5px); /* Elevation effect */
+}
+
 .eth-rate {
   font-weight: 500;
   margin-bottom: 10px;
   color: #555;
 }
+
+/* Modal styling */
 .modal {
   position: fixed;
   top: 0;
@@ -96,8 +132,30 @@ button:hover {
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
   border: none;
-  background-color: #333;
+  background-color: var(--charcoal-text);
   color: #fff;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: var(--hover-teal); /* Hover effect on button */
+}
+
+@media (max-width: 600px) {
+  .form {
+    padding: 0 1rem !important;
+  }
+
+  .form input,
+  .form button {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .property-card {
+    flex-direction: column;
+    text-align: center;
+  }
 }

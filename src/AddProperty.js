@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./css/AddProperty.css";
 
 const AddProperty = ({ account, contract, web3 }) => {
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [ethRate, setEthRate] = useState(null);
@@ -11,6 +12,7 @@ const AddProperty = ({ account, contract, web3 }) => {
   const [location, setLocation] = useState("");
   const [size, setSize] = useState("");
   const [propertyPaper, setPropertyPaper] = useState("");
+  const [ethValue, setEthValue] = useState("");
 
   useEffect(() => {
     fetchEthInrRate();
@@ -31,22 +33,33 @@ const AddProperty = ({ account, contract, web3 }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (!account || !contract) {
       setModalMessage("Wallet not connected or contract not loaded.");
       setIsSuccess(false);
       setShowModal(true);
       return;
     }
-
+    if (!/\d/.test(size)) {
+      setModalMessage("Please enter a valid size (must include digits).");
+      setIsSuccess(false);
+      setShowModal(true);
+      setLoading(false);
+      return;
+    }
+    if (!propertyPaper.startsWith("http")) {
+      setModalMessage("Please enter a valid document URL.");
+      setIsSuccess(false);
+      setShowModal(true);
+      setLoading(false);
+      return;
+    }
     try {
       const priceInEth = price / ethRate;
       const priceInWei = web3.utils.toWei(priceInEth.toString(), "ether");
-
       await contract.methods
         .registerProperty(name, location, size, propertyPaper, priceInWei)
         .send({ from: account });
-
       setModalMessage("Property added successfully!");
       setIsSuccess(true);
       setShowModal(true);
@@ -57,6 +70,20 @@ const AddProperty = ({ account, contract, web3 }) => {
       setModalMessage("Failed to add property.");
       setIsSuccess(false);
       setShowModal(true);
+    } finally {
+      setShowModal(true);
+      setLoading(false);
+    }
+  };
+
+  const handlePriceChange = (e) => {
+    const inr = e.target.value;
+    setPrice(inr);
+    if (!isNaN(inr) && inr !== "") {
+      const eth = parseFloat(inr) / ethRate;
+      setEthValue(eth.toFixed(6));
+    } else {
+      setEthValue("");
     }
   };
 
@@ -91,7 +118,7 @@ const AddProperty = ({ account, contract, web3 }) => {
         />
         <input
           name="propertyPaper"
-          placeholder="Property Paper (IPFS hash or URL)"
+          placeholder="Property Paper (Document URL)"
           required
           value={propertyPaper}
           onChange={(e) => setPropertyPaper(e.target.value)}
@@ -102,9 +129,16 @@ const AddProperty = ({ account, contract, web3 }) => {
           required
           type="number"
           value={price}
-          onChange={(e) => setPrice(e.target.value)}
+          // onChange={(e) => setPrice(e.target.value)}
+          onChange={handlePriceChange}
         />
-        <button type="submit">Register</button>
+        {ethValue && (
+          <p className="text-sm text-gray-500">≈ {ethValue} ETH</p>
+        )}
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
       </form>
 
       {/* Modal */}
@@ -115,11 +149,13 @@ const AddProperty = ({ account, contract, web3 }) => {
             <button
               onClick={() => {
                 setShowModal(false);
-                setName("");
-                setLocation("");
-                setSize("");
-                setPropertyPaper("");
-                setPrice("");
+                if (isSuccess) {
+                  setName("");
+                  setLocation("");
+                  setSize("");
+                  setPropertyPaper("");
+                  setPrice("");
+                }
               }}
             >
               Close
